@@ -28,12 +28,15 @@ end
 %% p2rt takes as input two robot poses as vectors
 %% and returns the relative transformation from
 %% the first to the second
-function [rt] = relative_pos(p1,p2)
+function [R] = relative_pos(p1,p2)
 
-  rt = t2v(v2t(p1)' * v2t(p2));
+  R = inv(v2t(p1)) * v2t(p2);
 
 end 
 
+%% pos2land takes as input a robot pose and a landmark
+%% position relative to it and returns the real location
+%% of the landmark
 function [lmark] = pos2land(p1,rel_lmark)
 
   lmark = 0;
