@@ -1,0 +1,62 @@
+HYPOTHESIS:
+
+We know the probability of success on painting a blank object:
+p(x_t+1 = colored | x_t = blank , u_t+1 = paint) = 0.9
+#p(x_t+1 = blank | x_t = blank , u_t+1 = paint) = 0.1
+
+And the probability that the sensor is wrong/right given
+that is shows the object as colored:
+p(z = colored | x = blank) = 0.2
+p(z = colored | x = colored) = 0.7
+# p(z = blank | x = blank) = 0.8
+# p(z = blank | x = colored) = 0.3
+
+
+UNKNOWN:
+We have no idea of the previous state of the object,
+we know it was meant to be painted and the sensor
+indicates it has.
+
+What is the probability of it having failed?
+P(Xt = blank | Ut = paint, Zt = colored)
+
+BAYES FILTER:
+
+This is based on an uniform prior distribution (or prior assumption),
+chosen because of the lack of information about the state of the
+world.
+
+As of now, uniformity means that 
+    bel(X0=blank) = bel(X0 = colored) = 0.5
+
+
+bel'(X1 = blank)
+    = sum{X0}( P(X1 = blank | U1 = paint, X0) * bel(X0) )
+    = P(X1 = blank | U1 = paint, X0 = blank) * bel(X0 = blank)
+      + P(X1 = blank | U1 = paint, X0 = colored) * bel(X0 = colored)
+    = 0.1 * 0.5 + 0 * 0.5 = 0.05
+
+Here we supposed that once colored it can't be un-colored.
+
+bel(X1 = blank)
+    = nu * P(Z1 = colored | X1 = blank) * bel'(X1 = blank)
+    = nu * 0.2 * 0.05
+    = nu * 0.01
+
+Now, to calculate nu, we have to know the bel(X1 = colored)
+
+bel'(X1 = blank) 
+    = P(X1 = colored | U1 = paint , X0 = blank) * bel(X0 = blank)
+      + P(X1 = colored | U1 = paint, X0 = colored) * bel(X0 = colored)
+    = 0.9 * 0.5 + 1 * 0.5 = 0.95
+
+bel(X1 = colored)
+    = nu * P(Z1 = colored | X1 = colored) * bel'(X1 = colored)
+    = nu * 0.7 * 0.95
+    = nu * 0.665
+
+Then nu = 1/(0.01 + 0.665) = 1/0.675 = 1.481481
+
+At last we have our result:
+
+bel(X1 = blank) = 1.481 * 0.01 = 0.014814
