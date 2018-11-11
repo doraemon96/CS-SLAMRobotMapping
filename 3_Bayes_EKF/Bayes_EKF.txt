@@ -1,0 +1,45 @@
+EXERCISE 1: Bayes Filter and EKF
+
+(a) Describe briefly the two main steps of the Bayes filter in your 
+own words.
+
+The two fundamental steps that the Bayes filter performs are the 
+prediction step and the correction step.
+The prediction steps consists in calculating the probabilites of
+finding the robot in a particular position with a particular
+orientation, given the last prediction's uncertainty.
+The correction steps uses the sensor's results to attempt to find
+a correlation between them and the predicted state of the world.
+
+
+(b) Describe briefly the meaning of the following probability
+density functions: P(Xt | Ut, Xt-1), P(Zt | Xt) and bel(Xt), which
+are processed by the Bayes Filter.
+
+The first density function results in a current state estimate given
+the previous state and the action taken by the actor.
+The second function predicts how the state of the world should be
+given the current state of the world.
+Finally bel is the belief that the world is found in a particular
+state, calculated by taking in account the predicted most probable
+current state (first equation) and the sensed data.
+
+(c) Specify the (normal) distributions that correspond to the above
+mentioned three terms in EFK SLAM.
+
+For EKF SLAM, we use the functions g and h to replace the linear 
+functions that model the predicted changes in the world by:
+
+Xt = g(Ut, Xt-1) + Et ; Zt = h(Xt) + Dt
+
+P(Xt | Ut, Xt-1) is approximated by the Normal distribution, centered
+in ???, with a deviation equal to ???.
+
+P(Zt | Xt) ???
+
+bel(Xt) ???
+
+
+EXERCISE 2: Jacobians
+
+Derivations are shown in "Bayes_EKF_deriv.pdf"
